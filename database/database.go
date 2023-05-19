@@ -1,6 +1,7 @@
 package database
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -54,4 +55,16 @@ func ConnectDb() {
 	DB = Dbinstance{
 		Db: db,
 	}
+}
+
+func (db *Dbinstance) FindUserByUsername(username string) *models.User {
+	user := new(models.User)
+	result := db.Db.Where("username = ?", username).First(user)
+	if result.Error != nil {
+		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+			return nil
+		}
+		return nil
+	}
+	return user
 }
