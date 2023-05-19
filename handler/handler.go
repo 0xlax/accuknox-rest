@@ -1,9 +1,28 @@
 package handler
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"github.com/0xlax/accuknox-rest/database"
+	"github.com/0xlax/accuknox-rest/models"
+	"github.com/gofiber/fiber/v2"
+)
 
 // Home is the handler function for the home route ("/").
 // It sends a string response "Note taking Application".
-func Home(c *fiber.Ctx) error {
-	return c.SendString("Note taking Application")
+func ListNotes(c *fiber.Ctx) error {
+	notes := []models.Word{}
+	database.DB.Db.Find(&notes)
+	// return c.SendString("Note taking Application")
+	return c.Status(200).JSON(notes)
+}
+
+func CreateNote(c *fiber.Ctx) error {
+	note := new(models.Word)
+	if err := c.BodyParser(note); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": err.Error(),
+		})
+	}
+	database.DB.Db.Create(&note)
+
+	return c.Status(200).JSON(note)
 }
