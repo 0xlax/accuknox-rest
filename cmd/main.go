@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 
+	"github.com/0xlax/accuknox-rest/cmd/routes"
 	"github.com/0xlax/accuknox-rest/database"
 	"github.com/gofiber/fiber/v2"
 )
@@ -11,11 +12,7 @@ func main() {
 	database.ConnectDb()
 	app := fiber.New()
 
-	setupRoutes(app)
-
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("Note taking Application")
-	})
+	routes.SetupRoutes(app)
 
 	log.Fatal(app.Listen(":3000"))
 }
