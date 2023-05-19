@@ -1,0 +1,9 @@
+version: "3.8"
+
+services:
+  web:
+    build: .  # Build the Docker image from the current directory
+    ports:
+      - 3000:3000  # Map host port 3000 to container port 3000
+    volumes:
+      - .:/usr/src/app  # Mount the current directory as a volume inside the container
