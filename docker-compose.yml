@@ -1,25 +1,26 @@
 version: "3.8"
 
+
 services:
   web:
     build: .  # Build the Docker image from the current directory
     env_file:
-      - .env  # Load environment variables from the .env file
+      - .env
     ports:
       - 3000:3000  # Map host port 3000 to container port 3000
     volumes:
       - .:/usr/src/app  # Mount the current directory as a volume inside the container
-    command: go run cmd/main.go -b 0.0.0.0  # Start Go webserver
+    command: go run cmd/main.go -b 0.0.0.0 # Start Go webserver 
   db:
-    image: postgres:alpine  # Use the PostgreSQL image from Docker Hub
+    image: postgres:alpine
     environment:
-      - POSTGRES_USER=$(DB_USER)  # Set the PostgreSQL username
-      - POSTGRES_PASSWORD=$(DB_PASSWORD)  # Set the PostgreSQL password
-      - POSTGRES_DB=$(DB_NAME)  # Set the name of the PostgreSQL database
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=notetakingapp
     ports:
-      - 5432:5432  # Map host port 5432 to container port 5432
+      - 5432:5432
     volumes:
-      - postgres-db:/var/lib/postgresql/data  # Mount a volume for PostgreSQL data storage
+      - postgres-db:/var/lib/postgresql/data
 
 volumes:
-  postgres-db:  # Define a volume named "postgres-db" for PostgreSQL data storage
+  postgres-db:

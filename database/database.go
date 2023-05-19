@@ -22,6 +22,7 @@ var DB Dbinstance
 // ConnectDb establishes a connection to the PostgreSQL database using the provided environment variables.
 // It initializes the database instance and performs necessary migrations.
 func ConnectDb() {
+
 	// Create the connection string using environment variables
 	dsn := fmt.Sprintf(
 		"host=db user=%s password=%s dbname=%s port=5432 sslmode=disable Timezone=Asia/Kolkata",
