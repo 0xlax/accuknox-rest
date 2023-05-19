@@ -11,3 +11,16 @@ services:
     volumes:
       - .:/usr/src/app  # Mount the current directory as a volume inside the container
     command: go run cmd/main.go -b 0.0.0.0 # Start Go webserver 
+  db:
+    image: postgres:alpine
+    environment:
+      - POSTGRES_USER=$(DB_USER)
+      - POSTGRES_PASSWORD=$(DB_PASSWORD)
+      - POSTGRES_DB=$(DB_NAME)
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres-db:/var/lib/postgresql/data
+
+volumes:
+  postgres-db:
