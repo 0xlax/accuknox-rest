@@ -9,9 +9,9 @@ import (
 // SetupRoutes is responsible for configuring the routes of the application.
 // It accepts a fiber.App instance and sets up the necessary routes and their corresponding handler functions.
 func SetupRoutes(app *fiber.App) {
-	// Define the "/" route and its handler function
-	app.Get("/", handler.ListNotes)
 
+	app.Get("/", handler.ListNotes)
+	app.Post("/signup", handler.CreateUser)
 	app.Post("/notes", handler.CreateNote)
 
 }

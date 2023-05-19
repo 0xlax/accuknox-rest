@@ -48,6 +48,7 @@ func ConnectDb() {
 	log.Println("Running Migrations")
 	// Perform necessary database migrations
 	db.AutoMigrate(&models.Word{})
+	db.AutoMigrate(&models.User{})
 
 	// Store the database instance in the DB variable
 	DB = Dbinstance{
