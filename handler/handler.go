@@ -50,7 +50,7 @@ func Login(c *fiber.Ctx) error {
 	}
 
 	// Find the user by username
-	user := database.DB.FindUserByUsername(loginData.Username)
+	user := database.DB.FindUserByEmail(loginData.Email)
 	if user == nil {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 			"message": "Invalid username or password",
@@ -60,7 +60,7 @@ func Login(c *fiber.Ctx) error {
 	// Check if the password matches
 	if user.Password != loginData.Password {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-			"message": "Invalid username or password",
+			"message": "401 UNAUTHORIZED",
 		})
 	}
 

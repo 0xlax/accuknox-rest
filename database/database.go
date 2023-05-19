@@ -57,9 +57,9 @@ func ConnectDb() {
 	}
 }
 
-func (db *Dbinstance) FindUserByUsername(username string) *models.User {
+func (db *Dbinstance) FindUserByEmail(email string) *models.User {
 	user := new(models.User)
-	result := db.Db.Where("username = ?", username).First(user)
+	result := db.Db.Where("email = ?", email).First(user)
 	if result.Error != nil {
 		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 			return nil
