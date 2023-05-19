@@ -42,7 +42,7 @@ func CreateUser(c *fiber.Ctx) error {
 }
 
 func Login(c *fiber.Ctx) error {
-	loginData := new(models.User)
+	loginData := new(models.LoginUser)
 	if err := c.BodyParser(loginData); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": "400 BAD REQUEST",
