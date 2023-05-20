@@ -27,6 +27,10 @@ Important Libraries Used:
     Database ORM : GORM
     SID generation: uuid
 
+## Docker Image
+
+    https://hub.docker.com/repository/docker/0xlax/accuknox-rest-api
+
 ## Getting Started
 
 1) Follow these steps to get the project up and running on your local machine:
