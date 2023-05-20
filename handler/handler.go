@@ -14,12 +14,15 @@ func CreateUser(c *fiber.Ctx) error {
 	user := new(models.User)
 	if err := c.BodyParser(user); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"message": "400 BAD REQUEST",
+			"message": "400 Bad Request",
 		})
 	}
 
 	database.DB.Db.Create(&user)
-	return c.Status(fiber.StatusCreated).JSON(user)
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "200 OK",
+		"user":    user,
+	})
 }
 
 func Login(c *fiber.Ctx) error {
@@ -34,14 +37,14 @@ func Login(c *fiber.Ctx) error {
 	user := database.DB.FindUserByEmail(loginData.Email)
 	if user == nil {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-			"message": "Invalid email or password",
+			"message": "401 UNAUTHORISED",
 		})
 	}
 
 	// Check if the password matches
 	if user.Password != loginData.Password {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-			"message": "Invalid email or password",
+			"message": "401 UNAUTHORISED",
 		})
 	}
 
@@ -53,7 +56,7 @@ func Login(c *fiber.Ctx) error {
 	database.DB.Db.Save(&user)
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
-		"message": "Logged in successfully",
+		"message": "200 OK",
 		"sid":     sid,
 	})
 }
@@ -65,7 +68,7 @@ func CreateNoteToUser(c *fiber.Ctx) error {
 	})
 	if err := c.BodyParser(requestBody); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"message": "Invalid request body",
+			"message": "400 Bad Request",
 		})
 	}
 
@@ -73,7 +76,7 @@ func CreateNoteToUser(c *fiber.Ctx) error {
 	user := database.DB.FindUserBySessionID(requestBody.SID)
 	if user == nil {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-			"message": "User not authenticated",
+			"message": "401 Unauthorized",
 		})
 	}
 
@@ -97,6 +100,7 @@ func CreateNoteToUser(c *fiber.Ctx) error {
 
 	// Return only the ID of the newly created note in the response
 	response := fiber.Map{
+		"message": "200 OK",
 		"note_id": newNoteID,
 	}
 
@@ -109,7 +113,7 @@ func ListNotes(c *fiber.Ctx) error {
 	})
 	if err := c.BodyParser(requestBody); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"message": "Invalid request body",
+			"message": "400 Bad Request",
 		})
 	}
 
@@ -117,7 +121,7 @@ func ListNotes(c *fiber.Ctx) error {
 	user := database.DB.FindUserBySessionID(requestBody.SID)
 	if user == nil {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-			"message": "User not authenticated",
+			"message": "401 Unauthorized",
 		})
 	}
 
@@ -135,7 +139,8 @@ func ListNotes(c *fiber.Ctx) error {
 	}
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
-		"notes": response,
+		"message": "200 OK",
+		"notes":   response,
 	})
 }
 
@@ -146,7 +151,7 @@ func DeleteNote(c *fiber.Ctx) error {
 	})
 	if err := c.BodyParser(requestBody); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"message": "Invalid request body",
+			"message": "400 Bad Request",
 		})
 	}
 
@@ -154,7 +159,7 @@ func DeleteNote(c *fiber.Ctx) error {
 	user := database.DB.FindUserBySessionID(requestBody.SID)
 	if user == nil {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-			"message": "User not authenticated",
+			"message": "401 Unauthorized",
 		})
 	}
 
@@ -176,6 +181,6 @@ func DeleteNote(c *fiber.Ctx) error {
 	database.DB.Db.Delete(&note)
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
-		"message": "Note deleted successfully",
+		"message": "200 OK",
 	})
 }
