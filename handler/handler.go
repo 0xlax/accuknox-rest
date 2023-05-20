@@ -1,10 +1,13 @@
 package handler
 
 import (
+	"errors"
+
 	"github.com/0xlax/accuknox-rest/database"
 	"github.com/0xlax/accuknox-rest/models"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
+	"gorm.io/gorm"
 )
 
 func CreateUser(c *fiber.Ctx) error {
@@ -133,5 +136,46 @@ func ListNotes(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"notes": response,
+	})
+}
+
+func DeleteNote(c *fiber.Ctx) error {
+	requestBody := new(struct {
+		SID string `json:"sid"`
+		ID  uint   `json:"id"`
+	})
+	if err := c.BodyParser(requestBody); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Invalid request body",
+		})
+	}
+
+	// Authenticate the user based on the session ID
+	user := database.DB.FindUserBySessionID(requestBody.SID)
+	if user == nil {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"message": "User not authenticated",
+		})
+	}
+
+	// Retrieve the note associated with the provided ID
+	note := models.Word{}
+	result := database.DB.Db.Where("user_id = ? AND id = ?", user.ID, requestBody.ID).First(&note)
+	if result.Error != nil {
+		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"message": "Invalid note ID",
+			})
+		}
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Failed to delete note",
+		})
+	}
+
+	// Delete the note from the database
+	database.DB.Db.Delete(&note)
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "Note deleted successfully",
 	})
 }

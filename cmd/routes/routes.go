@@ -14,6 +14,7 @@ func SetupRoutes(app *fiber.App) {
 	app.Post("/login", handler.Login)
 	app.Post("/notes", handler.CreateNoteToUser)
 	app.Get("/notes", handler.ListNotes)
+	app.Delete("/notes", handler.DeleteNote)
 
 }
 
