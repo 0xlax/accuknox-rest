@@ -9,6 +9,9 @@ Features
     PostgreSQL database integration
     Dockerized deployment using docker-compose
 
+
+[![asciicast](https://asciinema.org/a/586083.svg)](https://asciinema.org/a/586083)
+
 Prerequisites
 
 Before running the application, make sure you have the following dependencies installed:
@@ -16,6 +19,13 @@ Before running the application, make sure you have the following dependencies in
     Go (1.16 or higher)
     Docker
     Docker-compose
+
+
+Important Libraries Used:
+
+    Web Framework: Fiber (github.com/gofiber/fiber/v2)
+    Database ORM : GORM
+    SID generation: uuid
 
 ## Getting Started
 
@@ -85,6 +95,42 @@ This will recreate the containers using the updated image.
 Incase of ERROR_SQLSTATE 22023, wipe and run docker again: 
 
     docker-compose down && docker volume rm accuknox-rest_postgres-db && docker-compose up
+
+## Insomnia API Screenshots
+
+
+### POST Request - Signup
+
+![POST Request - Create User](img/signup.png)
+
+### POST Request - Login
+
+![POST Request - Login](img/login.png)
+
+### POST Request - Create Note 1
+
+![POST Request - Create Note 1](img/note-1.png)
+
+#### POST Request - Create Note 2
+![POST Request - Create Note 2](img/note-1.png)
+
+#### POST Request - Create Note 3
+![POST Request - Create Note 3](img/note-1.png)
+
+### GET Request - List Notes
+
+![GET Request - List Notes](img/get-notes.png)
+
+### DELETE Request - Delete Note
+
+![DELETE Request - Delete Note](img/delete-note-1.png)
+
+### GET Request (updated) 
+
+![GET Request - List Notes](img/after-delete.png)
+
+
+
 
 
 # Challenges Faced
