@@ -17,9 +17,3 @@ func SetupRoutes(app *fiber.App) {
 	app.Delete("/notes", handler.DeleteNote)
 
 }
-
-// POST 	/signup
-// POST 	/login
-// GET  	/notes
-// POST 	/notes
-// DELETE   /notes
