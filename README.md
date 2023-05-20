@@ -19,10 +19,7 @@ Before running the application, make sure you have the following dependencies in
 
 ## Getting Started
 
-1) 
-
-
-Follow these steps to get the project up and running on your local machine:
+1) Follow these steps to get the project up and running on your local machine:
 
 Clone the repository:
 
