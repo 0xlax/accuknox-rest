@@ -69,3 +69,16 @@ func (db *Dbinstance) FindUserByEmail(email string) *models.User {
 	}
 	return user
 }
+
+func (db *Dbinstance) FindUserBySessionID(sessionID string) *models.User {
+	user := new(models.User)
+	result := db.Db.Where("session_id= ?", sessionID).First(user)
+	if result.Error != nil {
+		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+			return nil
+		}
+		return nil
+	}
+	return user
+
+}

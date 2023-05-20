@@ -10,10 +10,10 @@ import (
 // It accepts a fiber.App instance and sets up the necessary routes and their corresponding handler functions.
 func SetupRoutes(app *fiber.App) {
 
-	app.Get("/", handler.ListNotes)
 	app.Post("/signup", handler.CreateUser)
-	app.Post("/notes", handler.CreateNote)
 	app.Post("/login", handler.Login)
+	app.Post("/notes", handler.CreateNoteToUser)
+	app.Get("/noters", handler.ListNotes)
 
 }
 
