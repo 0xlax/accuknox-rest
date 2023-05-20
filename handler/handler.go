@@ -101,8 +101,37 @@ func CreateNoteToUser(c *fiber.Ctx) error {
 }
 
 func ListNotes(c *fiber.Ctx) error {
+	requestBody := new(struct {
+		SID string `json:"sid"`
+	})
+	if err := c.BodyParser(requestBody); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Invalid request body",
+		})
+	}
+
+	// Authenticate the user based on the session ID
+	user := database.DB.FindUserBySessionID(requestBody.SID)
+	if user == nil {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"message": "User not authenticated",
+		})
+	}
+
+	// Retrieve the notes associated with the user
 	notes := []models.Word{}
-	database.DB.Db.Find(&notes)
-	// return c.SendString("Note taking Application")
-	return c.Status(200).JSON(notes)
+	database.DB.Db.Where("user_id = ?", user.ID).Find(&notes)
+
+	// Create a response array with notes and their IDs
+	response := make([]map[string]interface{}, len(notes))
+	for i, note := range notes {
+		response[i] = map[string]interface{}{
+			"id":   note.ID,
+			"note": note.Notes,
+		}
+	}
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"notes": response,
+	})
 }

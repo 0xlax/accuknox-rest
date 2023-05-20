@@ -13,7 +13,7 @@ func SetupRoutes(app *fiber.App) {
 	app.Post("/signup", handler.CreateUser)
 	app.Post("/login", handler.Login)
 	app.Post("/notes", handler.CreateNoteToUser)
-	app.Get("/noters", handler.ListNotes)
+	app.Get("/notes", handler.ListNotes)
 
 }
 
