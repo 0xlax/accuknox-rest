@@ -1,6 +1,6 @@
-# Accuknox REST API (Go)
+# Note Taking Application REST API (Go)
 
-Accuknox REST API is a Go-based project that provides a RESTful API for a note-taking application. It allows users to create, retrieve, update, and delete notes associated with their accounts.
+Note taking Application REST API is a Go-based project that provides a RESTful API for a note-taking application. It allows users to create, retrieve, update, and delete notes associated with their accounts.
 Features
 
     User registration and authentication
