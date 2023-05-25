@@ -10,7 +10,7 @@ Features
     Dockerized deployment using docker-compose
 
 
-[![asciicast](https://asciinema.org/a/586083.svg)](https://asciinema.org/a/586083)
+
 
 Prerequisites
 
